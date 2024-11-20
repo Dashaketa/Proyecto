@@ -1,0 +1,7 @@
+/* Add this to ensure dark mode doesn't overwrite your transparency */
+:root {
+    --ion-background-color: transparent !important;
+    --ion-background-color-rgb: transparent !important;
+    --ion-color-background: transparent !important;
+  }
+  

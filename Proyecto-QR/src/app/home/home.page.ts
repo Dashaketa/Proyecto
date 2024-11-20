@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from 'src/app/services/auth.service'; // Importa AuthService
 
 @Component({
@@ -49,6 +49,15 @@ export class HomePage {
     this.spinner = !this.spinner;
   }
 
+  // Helper function to add ngrok-skip-browser-warning header
+  private getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'ngrok-skip-browser-warning': 'true', // Añadir el encabezado aquí
+      }),
+    };
+  }
+
   // Método para validar el usuario e iniciar sesión
   validar() {
     const complexPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[.,\-!])[a-zA-Z0-9.,\-!]*$/;
@@ -59,10 +68,10 @@ export class HomePage {
         this.cambiarSpinner();
 
         // Llamada a la API para login
-        this.http.post('http://localhost:3000/api/login', {
+        this.http.post('https://amazing-yearly-cicada.ngrok-free.app/api/login', {
           usuario: this.user.username.toLowerCase(), // Normaliza a minúsculas
           contrasena: this.user.password
-        }).subscribe({
+        }, this.getHttpOptions()).subscribe({
           next: (response: any) => {
             console.log('Respuesta de la API:', response); // Verifica la estructura de la respuesta
 

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Perfil de {{ username }}</ion-title> <!-- Muestra correctamente el nombre de usuario -->
+    <ion-title>Perfil de {{ username }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,23 +11,24 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>Bienvenido/a {{ username }}</ion-card-title>
-      <!-- El nombre de usuario debe aparecer correctamente aquí -->
     </ion-card-header>
 
     <ion-card-content>
       <p><strong>Nombre:</strong> {{ nombre }}</p>
       <p><strong>Apellido:</strong> {{ apellido }}</p>
       <p><strong>Tipo de Usuario:</strong> {{ tipoUsuario }}</p>
-      <p><strong>Fecha de Nacimiento:</strong> {{ fechaNacimiento | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Fecha de Nacimiento:</strong> {{ fechaNacimiento | date: 'dd/MM/yyyy' }}</p>
     </ion-card-content>
-    <ion-button expand="full" (click)="logout()">Cerrar Sesión</ion-button>
-
   </ion-card>
-  <ion-button (click)="editarDatos()">Editar mis Datos</ion-button>
-  <span *ngIf="tipoUsuario === 'Estudiante'">
-    <ion-button (click)="escaneoQR()">Estoy Presente</ion-button>
-  </span>
-  <span *ngIf="tipoUsuario === 'Profesor'">
-    <ion-button (click)="registrarAsistencia()">Registrar Asistencia</ion-button>
-  </span>
+
+  <!-- Botón para escanear QR solo visible para estudiantes -->
+  <ion-button *ngIf="tipoUsuario === 'Estudiante'" expand="full" (click)="escaneoQR()">Escanear QR asistencia</ion-button>
+
+  <!-- Botones para profesores -->
+  <ion-button *ngIf="tipoUsuario === 'Profesor'" expand="full" (click)="registrarAsistencia()">Registrar asistencia alumnos</ion-button>
+  <ion-button *ngIf="tipoUsuario === 'Profesor'" expand="full" (click)="gestionarClases()">Gestionar Clases</ion-button>
+
+  <!-- Botón para editar datos y cerrar sesión -->
+  <ion-button expand="full" (click)="editarDatos()">Editar mis Datos</ion-button>
+  <ion-button expand="full" (click)="logout()" color="danger">Cerrar Sesión</ion-button>
 </ion-content>

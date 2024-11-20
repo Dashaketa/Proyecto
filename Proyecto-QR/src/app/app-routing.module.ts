@@ -40,6 +40,25 @@ const routes: Routes = [
     canActivate: [AuthGuard] // Aplica el AuthGuard para proteger la ruta
   },
   {
+    path: 'paginaqr',
+    loadChildren: () => import('./Access/paginaqr/paginaqr.module').then( m => m.PaginaqrPageModule),
+    canActivate: [AuthGuard] // Aplica el AuthGuard para proteger la ruta
+  },
+  {
+    path: 'gestion-clases',
+    loadChildren: () => import('./Access/gestion-clases/gestion-clases.module').then( m => m.GestionClasesPageModule),
+    canActivate: [AuthGuard] // Aplica el AuthGuard para proteger la ruta
+  },
+  {
+    path: 'seleccionar-clase',
+    loadChildren: () => import('./Access/seleccionar-clase/seleccionar-clase.module').then( m => m.SeleccionarClasePageModule),
+    canActivate: [AuthGuard] // Aplica el AuthGuard para proteger la ruta
+  },
+  {
+    path: 'scanner',
+    loadChildren: () => import('./Access/scanner/scanner.module').then( m => m.ScannerPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'page-not-found'  // Redirige a la página 404
   },

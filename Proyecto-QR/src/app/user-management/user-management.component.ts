@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, User } from '../user.service';
+import { UserService, User } from '../services/user.service';
 
 // Puedes definir una interfaz para manejar el error si lo deseas
 interface ApiError {

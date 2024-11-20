@@ -16,6 +16,17 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
+    // Configuración para la firma del APK
+    signingConfigs {
+        release {
+            storeFile file(project.hasProperty("KEYSTORE_PATH") ? project.KEYSTORE_PATH : "")
+            storePassword project.hasProperty("KEYSTORE_PASSWORD") ? project.KEYSTORE_PASSWORD : ""
+            keyAlias project.hasProperty("KEY_ALIAS") ? project.KEY_ALIAS : ""
+            keyPassword project.hasProperty("KEY_PASSWORD") ? project.KEY_PASSWORD : ""
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

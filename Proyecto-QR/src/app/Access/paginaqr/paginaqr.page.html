@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrar Asistencia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="qrCodeData">
+    <ion-card-content>
+      <img [src]="qrCodeData" alt="Código QR para asistencia" />
+    </ion-card-content>
+  </ion-card>
+</ion-content>

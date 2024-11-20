@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Seleccionar Clase</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="clases.length > 0; else sinClases">
+    <ion-item *ngFor="let clase of clases">
+      <ion-label>
+        {{ clase.nombreClase }}
+      </ion-label>
+      <ion-button
+        fill="outline"
+        slot="end"
+        color="primary"
+        (click)="seleccionarClase(clase.nombreClase)"
+      >
+        Registrar Asistencia
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Mensaje si no hay clases -->
+  <ng-template #sinClases>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>No se encontraron clases</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Debes añadir clases antes de generar un código QR.</p>
+        <ion-button expand="block" (click)="irGestionClases()">Gestionar Clases</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

@@ -1,6 +1,9 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
+const fs = require("fs"); // Importar el módulo fs
+const https = require("https"); // Importar el módulo https
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -33,6 +36,20 @@ const db = new sqlite3.Database("./user_management_db.db", (err) => {
       );
     });
   }
+});
+// Crear la tabla de clases si no existe
+db.serialize(() => {
+  db.run(
+    `CREATE TABLE IF NOT EXISTS clases (
+      idClase INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombreClase TEXT NOT NULL
+    )`,
+    (err) => {
+      if (err) {
+        console.error("Error al crear la tabla 'clases':", err.message);
+      }
+    }
+  );
 });
 
 // Ruta para registrar un usuario
@@ -186,9 +203,64 @@ app.put("/api/users/:usuario", (req, res) => {
       res.json({ message: `Usuario ${usuario} actualizado correctamente` });
     });
   });
-  
+// Ruta para obtener todas las clases
+app.get("/api/clases", (req, res) => {
+  const sql = `SELECT * FROM clases`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
+});
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+// Ruta para agregar una nueva clase
+app.post("/api/clases", (req, res) => {
+  const { nombreClase } = req.body;
+
+  if (!nombreClase) {
+    return res.status(400).json({ error: "El nombre de la clase es requerido." });
+  }
+
+  const sql = `INSERT INTO clases (nombreClase) VALUES (?)`;
+  db.run(sql, [nombreClase], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: "Clase creada", idClase: this.lastID });
+  });
+});
+
+// Ruta para eliminar una clase por su ID
+app.delete("/api/clases/:idClase", (req, res) => {
+  const { idClase } = req.params;
+
+  const sqlDelete = `DELETE FROM clases WHERE idClase = ?`;
+  db.run(sqlDelete, [idClase], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ message: "Clase no encontrada" });
+    }
+
+    // Reiniciar el contador de autoincremento después de eliminar la clase
+    const sqlReset = `DELETE FROM sqlite_sequence WHERE name='clases'`;
+    db.run(sqlReset, function (err) {
+      if (err) {
+        return res.status(500).json({ error: 'Error al reiniciar el contador de autoincremento: ' + err.message });
+      }
+
+    res.json({ message: `Clase con ID ${idClase} eliminada correctamente` });
+  });
+});
+});
+// Cargar los archivos del certificado y clave privada
+const privateKey = fs.readFileSync("../ssl/server_nopass.key", "utf8");
+const certificate = fs.readFileSync("../ssl/server.crt", "utf8");
+// Configurar el servidor HTTPS
+const credentials = { key: privateKey, cert: certificate };
+// Iniciar el servidor HTTPS
+https.createServer(credentials, app).listen(port, () => {
+  console.log(`Servidor HTTPS escuchando en https://localhost:${port}`);
 });

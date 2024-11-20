@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService, User } from '../user.service'; // Importar el servicio y la interfaz
+import { UserService, User } from '../services/user.service'; // Importar el servicio y la interfaz
 
 @Component({
   selector: 'app-edit-profile',

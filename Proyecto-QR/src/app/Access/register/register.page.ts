@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../user.service'; // Asegúrate de que la ruta sea correcta
+import { UserService } from '../../services/user.service'; // Asegúrate de que la ruta sea correcta
 import { AlertController, NavController } from '@ionic/angular'; // Importa AlertController y NavController
 
 @Component({

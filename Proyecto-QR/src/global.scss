@@ -20,6 +20,19 @@ $app-theme: mat.define-theme((
     scale: 0,
   )
 ));
+html,
+body {
+  background-color: transparent !important;
+}
+
+ion-app {
+  background: transparent !important;
+}
+
+ion-content {
+  background: transparent !important;
+}
+
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

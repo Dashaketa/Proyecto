@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../user.service'; // Asegúrate de importar UserService
+import { UserService } from '../../services/user.service'; // Asegúrate de importar UserService
 import { Capacitor } from '@capacitor/core'; // Importa Capacitor
 
 @Component({

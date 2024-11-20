@@ -1,0 +1,13 @@
+ion-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensures full height for centering */
+  }
+  
+  img {
+    max-width: 90%;  /* Optional: restricts the size of the image */
+    max-height: 90%; /* Optional: ensures the image doesn't overflow */
+    object-fit: contain; /* Optional: maintains aspect ratio */
+  }
+  
